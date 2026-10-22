@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloom Finance</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <a class="brand" href="#dashboard">✿ Bloom Finance</a>
+        <p class="nav-label">MENU UTAMA</p>
+
+        <nav>
+            <a href="#dashboard" class="nav-link active">⌂ Dashboard</a>
+            <a href="#transaksi" class="nav-link">↔ Transaksi</a>
+            <a href="#pendapatan" class="nav-link">↗ Pendapatan</a>
+            <a href="#pengeluaran" class="nav-link">↘ Pengeluaran</a>
+            <a href="#laporan" class="nav-link">▤ Laporan</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="avatar">A</div>
+            <div>
+                <strong>Keuangan Pribadi</strong>
+                <p>My personal space ♡</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">PERSONAL FINANCE</p>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p class="muted">Atur uangmu, wujudkan tujuanmu.</p>
+            </div>
+            <button class="btn btn-primary" id="addTop">+ Tambah transaksi</button>
+        </header>
+
+        <section id="dashboard" class="page">
+            <div class="welcome">
+                <div>
+                    <span class="eyebrow">✦ WELCOME TO BLOOM FINANCE</span>
+                    <h2>Halo, selamat datang! ♡</h2>
+                    <p>Yuk, pantau keuanganmu dan mulai kelola uang dengan lebih teratur.</p>
+                </div>
+                <div class="flower">✿</div>
+            </div>
+
+            <div class="stats">
+                <article class="stat">
+                    <div class="stat-heading">Total Pendapatan <span>↗</span></div>
+                    <h2 id="totalIncome">Rp 0</h2>
+                    <p>Bulan ini</p>
+                </article>
+                <article class="stat">
+                    <div class="stat-heading">Total Pengeluaran <span>↘</span></div>
+                    <h2 id="totalExpense">Rp 0</h2>
+                    <p>Bulan ini</p>
+                </article>
+                <article class="stat">
+                    <div class="stat-heading">Saldo Bersih <span>♡</span></div>
+                    <h2 id="totalBalance">Rp 0</h2>
+                    <p>Total pemasukan dikurangi pengeluaran</p>
+                </article>
+                <article class="stat">
+                    <div class="stat-heading">Total Transaksi <span>▤</span></div>
+                    <h2 id="totalCount">0</h2>
+                    <p>Semua transaksi</p>
+                </article>
+            </div>
+
+            <div class="content-grid">
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Ringkasan Arus Kas</h3>
+                            <p class="muted">Pendapatan vs pengeluaran</p>
+                        </div>
+                        <span class="pill">6 bulan terakhir</span>
+                    </div>
+                    <div class="chart-wrap">
+                        <canvas id="cashFlowChart"></canvas>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Akses Cepat</h3>
+                            <p class="muted">Kelola keuanganmu</p>
+                        </div>
+                    </div>
+                    <div class="quick-grid">
+                        <button class="quick" data-type="pemasukan">
+                            <span>↗</span><strong>Tambah pendapatan</strong>
+                        </button>
+                        <button class="quick" data-type="pengeluaran">
+                            <span>↘</span><strong>Tambah pengeluaran</strong>
+                        </button>
+                        <a class="quick" href="#transaksi">
+                            <span>↔</span><strong>Lihat transaksi</strong>
+                        </a>
+                        <a class="quick" href="#laporan">
+                            <span>▤</span><strong>Lihat laporan</strong>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Transaksi Terbaru</h3>
+                        <p class="muted">Lima transaksi terakhir</p>
+                    </div>
+                    <a href="#transaksi" class="text-link">Lihat semua →</a>
+                </div>
+                <div id="recentTransactions"></div>
+            </section>
+        </section>
+
+        <section id="transaksi" class="page hidden">
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Semua Transaksi</h3>
+                        <p class="muted">Tambah, cari, edit, dan hapus data.</p>
+                    </div>
+                    <button class="btn btn-primary" id="addTransaction">+ Tambah</button>
+                </div>
+                <div class="filters">
+                    <input id="searchInput" placeholder="Cari keterangan atau kategori...">
+                    <select id="filterType">
+                        <option value="semua">Semua jenis</option>
+                        <option value="pemasukan">Pemasukan</option>
+                        <option value="pengeluaran">Pengeluaran</option>
+                    </select>
+                </div>
+                <div id="allTransactions"></div>
+            </section>
+        </section>
+
+        <section id="pendapatan" class="page hidden">
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Daftar Pendapatan</h3>
+                        <p class="muted">Semua pemasukan yang tercatat.</p>
+                    </div>
+                    <button class="btn btn-primary" data-type="pemasukan">+ Tambah pendapatan</button>
+                </div>
+                <div id="incomeList"></div>
+            </section>
+        </section>
+
+        <section id="pengeluaran" class="page hidden">
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Daftar Pengeluaran</h3>
+                        <p class="muted">Semua pengeluaran yang tercatat.</p>
+                    </div>
+                    <button class="btn btn-primary" data-type="pengeluaran">+ Tambah pengeluaran</button>
+                </div>
+                <div id="expenseList"></div>
+            </section>
+        </section>
+
+        <section id="laporan" class="page hidden">
+            <div class="stats">
+                <article class="stat">
+                    <div class="stat-heading">Total Pendapatan</div>
+                    <h2 id="reportIncome">Rp 0</h2>
+                </article>
+                <article class="stat">
+                    <div class="stat-heading">Total Pengeluaran</div>
+                    <h2 id="reportExpense">Rp 0</h2>
+                </article>
+                <article class="stat">
+                    <div class="stat-heading">Saldo Keseluruhan</div>
+                    <h2 id="reportBalance">Rp 0</h2>
+                </article>
+            </div>
+            <section class="panel">
+                <h3>Laporan Arus Kas</h3>
+                <p class="muted">Grafik diperbarui berdasarkan transaksi yang kamu masukkan.</p>
+                <div class="chart-wrap report-chart">
+                    <canvas id="reportChart"></canvas>
+                </div>
+            </section>
+        </section>
+
+        <footer>© 2026 Bloom Finance · Kelola uang dengan lebih bijak ♡</footer>
+    </main>
+</div>
+
+<div class="modal hidden" id="transactionModal">
+    <form class="modal-card" id="transactionForm">
+        <div class="panel-heading">
+            <div>
+                <h3 id="modalTitle">Tambah Transaksi</h3>
+                <p class="muted">Isi detail transaksi di bawah ini.</p>
+            </div>
+            <button type="button" class="close-btn" id="closeModal">×</button>
+        </div>
+
+        <input type="hidden" id="transactionId">
+
+        <label for="type">Jenis transaksi</label>
+        <select id="type" required>
+            <option value="pemasukan">Pemasukan</option>
+            <option value="pengeluaran">Pengeluaran</option>
+        </select>
+
+        <label for="description">Keterangan</label>
+        <input id="description" maxlength="100" placeholder="Contoh: Uang bulanan" required>
+
+        <label for="category">Kategori</label>
+        <select id="category" required>
+            <option value="Gaji / Uang bulanan">Gaji / Uang bulanan</option>
+            <option value="Makanan">Makanan</option>
+            <option value="Transportasi">Transportasi</option>
+            <option value="Belanja">Belanja</option>
+            <option value="Pendidikan">Pendidikan</option>
+            <option value="Tagihan">Tagihan</option>
+            <option value="Tabungan">Tabungan</option>
+            <option value="Hadiah">Hadiah</option>
+            <option value="Lainnya">Lainnya</option>
+        </select>
+
+        <label for="amount">Nominal (Rp)</label>
+        <input id="amount" type="number" min="1" step="1" placeholder="Contoh: 50000" required>
+
+        <label for="date">Tanggal</label>
+        <input id="date" type="date" required>
+
+        <p class="form-error" id="formError"></p>
+
+        <div class="modal-actions">
+            <button type="button" class="btn btn-light" id="cancelModal">Batal</button>
+            <button type="submit" class="btn btn-primary">Simpan transaksi</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
